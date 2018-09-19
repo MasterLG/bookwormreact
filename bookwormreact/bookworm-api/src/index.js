@@ -2,16 +2,20 @@ import express from "express";
 import path from "path";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
+import dotenv from "dotenv";
+import Promise from "bluebird";
 
 import auth from "./routes/auth";
 
 const app = express();
 
+dotenv.config();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+mongoose.Promise = Promise;
 mongoose
-  .connect("mongodb://xxx:xxx@ds161102.mlab.com:61102/bookworm")
+  .connect("mongodb://eduonix:password1@ds161102.mlab.com:61102/bookworm")
   .then(() => {
     console.log("MongoDB Connected!");
   })
