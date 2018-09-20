@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-//import uniqueValidator from "mongoose-unique-validator";
+import uniqueValidator from "mongoose-unique-validator";
 
 // TODO: add uniqueness and email validations to email field
 const schema = new mongoose.Schema(
@@ -24,9 +24,9 @@ schema.methods.isValidPassword = function isValidPassword(password) {
   return bcrypt.compareSync(password, this.passwordHash);
 };
 
-// schema.methods.setPassword = function setPassword(password) {
-//   this.passwordHash = bcrypt.hashSync(password, 10);
-// };
+schema.methods.setPassword = function setPassword(password) {
+  this.passwordHash = bcrypt.hashSync(password, 10);
+};
 
 // schema.methods.setConfirmationToken = function setConfirmationToken() {
 //   this.confirmationToken = this.generateJWT();
@@ -64,11 +64,11 @@ schema.methods.generateJWT = function generateJWT() {
 schema.methods.toAuthJSON = function toAuthJSON() {
   return {
     email: this.email,
-    confirmed: this.confirmed,
+    //confirmed: this.confirmed,
     token: this.generateJWT()
   };
 };
 
-// schema.plugin(uniqueValidator, { message: "This email is already taken" });
+schema.plugin(uniqueValidator, { message: "This email is already taken" });
 
 export default mongoose.model("User", schema);
