@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-//This is a HOC
+import { Route, Redirect } from "react-router-dom";
+
 const UserRoute = ({ isAuthenticated, component: Component, ...rest }) => (
   <Route
     {...rest}
@@ -16,9 +16,11 @@ UserRoute.propTypes = {
   component: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired
 };
+
 function mapStateToProps(state) {
   return {
     isAuthenticated: !!state.user.token
   };
 }
+
 export default connect(mapStateToProps)(UserRoute);
